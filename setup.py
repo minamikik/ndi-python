@@ -62,7 +62,7 @@ setup(
     url="https://github.com/buresu/ndi-python",
     license="MIT",
     python_requires=">=3.7",
-    install_requires=["numpy"],
+    install_requires=["numpy", "pybind11"],
     ext_modules=[CMakeExtension("NDIlib")],
     cmdclass={"build_ext": CMakeBuild},
     packages=["NDIlib"],
