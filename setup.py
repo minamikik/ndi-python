@@ -54,7 +54,7 @@ long_description = (this_directory / "README.md").read_text()
 # setup
 setup(
     name="ndi-python",
-    version="5.1.1.6",
+    version="5.1.1.5-minamik.dev0",
     description="Wrapper package for NDI SDK python bindings.",
     long_description=long_description,
     long_description_content_type="text/markdown",
