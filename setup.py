@@ -66,7 +66,7 @@ setup(
     ext_modules=[CMakeExtension("NDIlib")],
     cmdclass={"build_ext": CMakeBuild},
     packages=["NDIlib"],
-    package_data={"NDIlib": ["*.so*", "*.pyd", "*.dll", "*.dylib", "*.txt"]},
+    package_data={"NDIlib": ["*.so*", "*.pyd", "*.dll", "*.dylib", "*.txt", "*.pyi", "*.typed"]},
     zip_safe=False,
     keywords=["NDI", "NewTek", "Video Production"],
     classifiers=[
