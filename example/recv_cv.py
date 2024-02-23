@@ -1,6 +1,8 @@
 import sys
-import numpy as np
+
 import cv2 as cv
+import numpy as np
+
 import NDIlib as ndi
 
 
@@ -16,7 +18,7 @@ def main():
 
     sources = []
     while not len(sources) > 0:
-        print('Looking for sources ...')
+        print("Looking for sources ...")
         ndi.find_wait_for_sources(ndi_find, 1000)
         sources = ndi.find_get_current_sources(ndi_find)
 
@@ -38,12 +40,12 @@ def main():
         t, v, _, _ = ndi.recv_capture_v2(ndi_recv, 5000)
 
         if t == ndi.FRAME_TYPE_VIDEO:
-            print('Video data received (%dx%d).' % (v.xres, v.yres))
+            print("Video data received (%dx%d)." % (v.xres, v.yres))
             frame = np.copy(v.data)
-            cv.imshow('ndi image', frame)
+            cv.imshow("ndi image", frame)
             ndi.recv_free_video_v2(ndi_recv, v)
 
-        if cv.waitKey(1) & 0xff == 27:
+        if cv.waitKey(1) & 0xFF == 27:
             break
 
     ndi.recv_destroy(ndi_recv)

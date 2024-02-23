@@ -1,8 +1,10 @@
 import sys
 import time
-import numpy as np
-import av
 from fractions import Fraction
+
+import av
+import numpy as np
+
 import NDIlib as ndi
 
 
@@ -18,7 +20,7 @@ def main():
 
     sources = []
     while not len(sources) > 0:
-        print('Looking for sources ...')
+        print("Looking for sources ...")
         ndi.find_wait_for_sources(ndi_find, 1000)
         sources = ndi.find_get_current_sources(ndi_find)
 
@@ -35,13 +37,13 @@ def main():
     ndi.find_destroy(ndi_find)
 
     fps = 30
-    output = av.open('output.mov', mode='w')
-    stream = output.add_stream('mpeg4', rate=fps)
+    output = av.open("output.mov", mode="w")
+    stream = output.add_stream("mpeg4", rate=fps)
     stream.width = 1920
     stream.height = 1080
-    stream.pix_fmt = 'yuv420p'
-    stream.bit_rate = 8e+6
-    stream.bit_rate_tolerance = 12e+6
+    stream.pix_fmt = "yuv420p"
+    stream.bit_rate = 8e6
+    stream.bit_rate_tolerance = 12e6
     stream.codec_context.time_base = Fraction(1, fps)
 
     start = time.time()
@@ -49,12 +51,11 @@ def main():
         t, v, _, _ = ndi.recv_capture_v2(ndi_recv, 5000)
 
         if t == ndi.FRAME_TYPE_VIDEO:
-            print('Video data received (%dx%d).' % (v.xres, v.yres))
+            print("Video data received (%dx%d)." % (v.xres, v.yres))
             frame_time = time.time() - start
             try:
-                frame = av.VideoFrame.from_ndarray(v.data, format='bgra')
-                frame.pts = int(
-                    round(frame_time / stream.codec_context.time_base))
+                frame = av.VideoFrame.from_ndarray(v.data, format="bgra")
+                frame.pts = int(round(frame_time / stream.codec_context.time_base))
                 for packet in stream.encode(frame):
                     output.mux(packet)
             except Exception as e:
