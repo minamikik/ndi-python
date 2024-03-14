@@ -1,5 +1,7 @@
 import sys
+
 import numpy as np
+
 import NDIlib as ndi
 
 
@@ -15,7 +17,7 @@ def main():
 
     sources = []
     while not len(sources) > 0:
-        print('Looking for sources ...')
+        print("Looking for sources ...")
         ndi.find_wait_for_sources(ndi_find, 1000)
         sources = ndi.find_get_current_sources(ndi_find)
 
@@ -35,16 +37,16 @@ def main():
         t, v, a, _ = ndi.recv_capture_v2(ndi_recv, 5000)
 
         if t == ndi.FRAME_TYPE_NONE:
-            print('No data received.')
+            print("No data received.")
             continue
 
         if t == ndi.FRAME_TYPE_VIDEO:
-            print('Video data received (%dx%d).' % (v.xres, v.yres))
+            print("Video data received (%dx%d)." % (v.xres, v.yres))
             ndi.recv_free_video_v2(ndi_recv, v)
             continue
 
         if t == ndi.FRAME_TYPE_AUDIO:
-            print('Audio data received (%d samples).' % a.no_samples)
+            print("Audio data received (%d samples)." % a.no_samples)
             ndi.recv_free_audio_v2(ndi_recv, a)
             continue
 
